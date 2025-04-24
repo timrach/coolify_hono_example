@@ -1,0 +1,23 @@
+# THIS IS THE COMPOSE FILE FOR PRODUCTION DEPLOYMENTS
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    expose:
+    - "3210"
+    volumes:
+      - story_packages:/app/story-packages
+      - db_data:/app/data
+    environment:
+      - DATABASE_URL=file:/app/data/dev.db
+      - NODE_ENV=production
+      - APIKEY=${APIKEY}
+    restart: unless-stopped
+
+volumes:
+  story_packages:
+  db_data:
